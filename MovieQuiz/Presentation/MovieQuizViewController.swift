@@ -82,11 +82,11 @@ final class MovieQuizViewController: UIViewController {
         checkResultAndGoToNextQuestion(true)
     }
 
-    @IBOutlet weak var questionImage: UIImageView!
+    @IBOutlet private weak var questionImage: UIImageView!
 
-    @IBOutlet weak var noButton: UIButton!
+    @IBOutlet private weak var noButton: UIButton!
 
-    @IBAction func onNoButtonTap(_ sender: UIButton) {
+    @IBAction private func onNoButtonTap(_ sender: UIButton) {
         checkResultAndGoToNextQuestion(false)
     }
 
