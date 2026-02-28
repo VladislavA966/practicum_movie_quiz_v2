@@ -3,7 +3,7 @@ import UIKit
 final class MovieQuizViewController: UIViewController {
 
     private struct QuizQuestion {
-        let image: String
+        let imageName: String
         let text: String
         let isCorrect: Bool
     }
@@ -17,52 +17,52 @@ final class MovieQuizViewController: UIViewController {
 
     private var questions: [QuizQuestion] = [
         QuizQuestion(
-            image: "The Godfather",
+            imageName: "The Godfather",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: true
         ),
         QuizQuestion(
-            image: "The Dark Knight",
+            imageName: "The Dark Knight",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: true
         ),
         QuizQuestion(
-            image: "Kill Bill",
+            imageName: "Kill Bill",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: true
         ),
         QuizQuestion(
-            image: "The Avengers",
+            imageName: "The Avengers",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: true
         ),
         QuizQuestion(
-            image: "Deadpool",
+            imageName: "Deadpool",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: true
         ),
         QuizQuestion(
-            image: "The Green Knight",
+            imageName: "The Green Knight",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: true
         ),
         QuizQuestion(
-            image: "Old",
+            imageName: "Old",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: false
         ),
         QuizQuestion(
-            image: "The Ice Age Adventures of Buck Wild",
+            imageName: "The Ice Age Adventures of Buck Wild",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: false
         ),
         QuizQuestion(
-            image: "Tesla",
+            imageName: "Tesla",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: false
         ),
         QuizQuestion(
-            image: "Vivarium",
+            imageName: "Vivarium",
             text: "Рейтинг этого фильма больше чем 6?",
             isCorrect: false
         ),
@@ -97,7 +97,7 @@ final class MovieQuizViewController: UIViewController {
 
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+            image: UIImage(named: model.imageName) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)"
         )
@@ -108,7 +108,7 @@ final class MovieQuizViewController: UIViewController {
         questionLabel.text = currentQuestion.question
         questionImage.image = currentQuestion.image
         counterLabel.text = currentQuestion.questionNumber
-        setBorderColor(UIColor.white)
+        setImageBordersStyle()
     }
 
     private func checkResultAndGoToNextQuestion(_ givenAnswer: Bool) {
@@ -128,7 +128,7 @@ final class MovieQuizViewController: UIViewController {
         if isCorrect {
             correctAnswers += 1
         }
-        setBorderColor(isCorrect ? UIColor.green : UIColor.red)
+        setImageBordersStyle(isCorrect ? UIColor.ypGreen : UIColor.ypRed)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
             self.currentQuestionIndex += 1
@@ -139,11 +139,11 @@ final class MovieQuizViewController: UIViewController {
 
     }
 
-    private func setBorderColor(_ color: UIColor) {
+    private func setImageBordersStyle(_ color: UIColor = UIColor.clear) {
         questionImage.layer.masksToBounds = true
-        questionImage.layer.borderWidth = 1
+        questionImage.layer.borderWidth = 8
         questionImage.layer.borderColor = color.cgColor
-        questionImage.layer.cornerRadius = 6
+        questionImage.layer.cornerRadius = 20
     }
 
     private func setUpResultAlert() {
