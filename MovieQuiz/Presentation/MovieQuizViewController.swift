@@ -2,8 +2,170 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController {
 
+    private struct QuizQuestion {
+        let imageName: String
+        let text: String
+        let isCorrect: Bool
+    }
+
+    private struct QuizStepViewModel {
+        let image: UIImage
+        let question: String
+        let questionNumber: String
+
+    }
+
+    private var questions: [QuizQuestion] = [
+        QuizQuestion(
+            imageName: "The Godfather",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: true
+        ),
+        QuizQuestion(
+            imageName: "The Dark Knight",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: true
+        ),
+        QuizQuestion(
+            imageName: "Kill Bill",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: true
+        ),
+        QuizQuestion(
+            imageName: "The Avengers",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: true
+        ),
+        QuizQuestion(
+            imageName: "Deadpool",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: true
+        ),
+        QuizQuestion(
+            imageName: "The Green Knight",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: true
+        ),
+        QuizQuestion(
+            imageName: "Old",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: false
+        ),
+        QuizQuestion(
+            imageName: "The Ice Age Adventures of Buck Wild",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: false
+        ),
+        QuizQuestion(
+            imageName: "Tesla",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: false
+        ),
+        QuizQuestion(
+            imageName: "Vivarium",
+            text: "Рейтинг этого фильма больше чем 6?",
+            isCorrect: false
+        ),
+    ]
+
+    private var currentQuestionIndex = 0
+
+    private var correctAnswers = 0
+
+    @IBOutlet private weak var counterLabel: UILabel!
+
+    @IBOutlet private weak var questionLabel: UILabel!
+
+    @IBOutlet private weak var yesButton: UIButton!
+
+    @IBAction private func onYesButtonTap(_ sender: UIButton) {
+        checkResultAndGoToNextQuestion(true)
+    }
+
+    @IBOutlet private weak var questionImage: UIImageView!
+
+    @IBOutlet private weak var noButton: UIButton!
+
+    @IBAction private func onNoButtonTap(_ sender: UIButton) {
+        checkResultAndGoToNextQuestion(false)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpUI()
+    }
+
+    private func convert(model: QuizQuestion) -> QuizStepViewModel {
+        QuizStepViewModel(
+            image: UIImage(named: model.imageName) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questions.count)"
+        )
+    }
+
+    private func setUpUI() {
+        let currentQuestion = convert(model: questions[currentQuestionIndex])
+        questionLabel.text = currentQuestion.question
+        questionImage.image = currentQuestion.image
+        counterLabel.text = currentQuestion.questionNumber
+        setImageBordersStyle()
+    }
+
+    private func checkResultAndGoToNextQuestion(_ givenAnswer: Bool) {
+        yesButton.isEnabled = false
+        noButton.isEnabled = false
+        guard currentQuestionIndex != questions.count - 1 else {
+            setUpResultAlert()
+            return
+        }
+        showResul(
+            isCorrect: givenAnswer == questions[currentQuestionIndex].isCorrect
+        )
+
+    }
+
+    private func showResul(isCorrect: Bool) {
+        if isCorrect {
+            correctAnswers += 1
+        }
+        setImageBordersStyle(isCorrect ? UIColor.ypGreen : UIColor.ypRed)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
+            self.currentQuestionIndex += 1
+            self.setUpUI()
+            self.yesButton.isEnabled = true
+            self.noButton.isEnabled = true
+        }
+
+    }
+
+    private func setImageBordersStyle(_ color: UIColor = UIColor.clear) {
+        questionImage.layer.masksToBounds = true
+        questionImage.layer.borderWidth = 8
+        questionImage.layer.borderColor = color.cgColor
+        questionImage.layer.cornerRadius = 20
+    }
+
+    private func setUpResultAlert() {
+        let alert = UIAlertController(
+            title: "Этот раунд окончен!",
+            message: "Ваш результат \(correctAnswers)/10",
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(title: "Сыграть еще раз", style: .default) {
+            _ in
+            self.yesButton.isEnabled = true
+            self.noButton.isEnabled = true
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            self.questions = self.questions.shuffled()
+            self.setUpUI()
+
+        }
+
+        alert.addAction(action)
+
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
