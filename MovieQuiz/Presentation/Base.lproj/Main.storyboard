@@ -45,7 +45,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Default" translatesAutoresizingMaskIntoConstraints="NO" id="f9m-tW-kQp" userLabel="Image Preview">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="f9m-tW-kQp" userLabel="Image Preview">
                                         <rect key="frame" x="0.0" y="47" width="374" height="561"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="f9m-tW-kQp" secondAttribute="height" multiplier="2:3" id="mRF-dZ-sau"/>
@@ -116,17 +116,23 @@
                                     <constraint firstItem="RmL-bS-jpB" firstAttribute="leading" secondItem="eyJ-bK-cgv" secondAttribute="leading" id="uvu-aY-356"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="qIK-BS-j7X">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Background"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eyJ-bK-cgv" secondAttribute="trailing" constant="20" id="7W0-1P-fje"/>
                             <constraint firstItem="eyJ-bK-cgv" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Int-lv-L8h"/>
+                            <constraint firstItem="qIK-BS-j7X" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dkc-L9-Jtp"/>
+                            <constraint firstItem="qIK-BS-j7X" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="scW-bz-OJK"/>
                             <constraint firstItem="eyJ-bK-cgv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xKc-rT-a56"/>
                             <constraint firstItem="eyJ-bK-cgv" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="yPC-fc-1ZE"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="qIK-BS-j7X" id="vGA-wW-GL6"/>
                         <outlet property="counterLabel" destination="efp-AV-YZ8" id="vcO-hf-NT1"/>
                         <outlet property="noButton" destination="z11-x0-rbf" id="uyV-P2-SvR"/>
                         <outlet property="questionImage" destination="f9m-tW-kQp" id="jrX-ux-75i"/>
@@ -140,7 +146,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Default" width="335" height="502"/>
         <namedColor name="YP Background">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="0.60000002384185791" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

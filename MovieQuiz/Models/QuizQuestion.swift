@@ -1,7 +1,7 @@
 import UIKit
 
 struct QuizQuestion {
-    let imageName: String
+    let imageName: Data
     let text: String
     let isCorrect: Bool
 }
