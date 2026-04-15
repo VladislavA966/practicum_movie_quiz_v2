@@ -8,7 +8,11 @@ protocol MoviesLoadingProtocol {
 struct MoviesLoading: MoviesLoadingProtocol {
     
     private let route = "https://tv-api.com/en/API/Top250Movies/k_zcuw1ytf"
-    private let networkClient = NetworkClient()
+    private let networkClient: NetworkRouting
+    
+    init(networkClient: NetworkRouting = NetworkClient()) {
+        self.networkClient = networkClient
+    }
     
     func fetchMovies(handler: @escaping (Result<MostPopularMovies, any Error>) -> Void) {
         networkClient.fetch(url: mostPopularMoviesUrl) {
